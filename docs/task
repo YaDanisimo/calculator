@@ -13,39 +13,34 @@
 ФАЗА 1. КАРКАС
 ================================================================================
 
-[ ] 1.1 Создать пустые файлы проекта
-        что:    errors.py, normalize.py, tokens.py, tokenizer.py,
-                numbers.py, parser.py, evaluator.py, formatter.py,
-                calculator.py в корне.
+[X] 1.1 Создать пустые файлы проекта
+        # будут меняться по ходу дела
         файлы:  все
         зависит: —
 
 [ ] 1.2 Иерархия исключений в errors.py
-        что:    CalcError(Exception) — базовый;
-                NumberFormatError, SequenceError, DivisionByZeroError,
-                BracketError, FractionFormatError, DomainError — наследники.
-                Понятные сообщения на русском.
+        # просто сделать принты для разных случаев :/
         файлы:  errors.py
         зависит: —
 
 [ ] 1.3 Типы токенов в tokens.py
-        что:    TokenType (enum): NUMBER, OPERATOR, LPAREN, RPAREN,
+        # создать удобный класс
+        # TokenType (enum): NUMBER, OPERATOR, LPAREN, RPAREN,
                 FUNCTION, CONSTANT, EOF.
                 Token (dataclass): type, value, position.
         файлы:  tokens.py
         зависит: —
 
 [ ] 1.4 Заготовка calculator.py
-        что:    функция calc(text) -> str — пока raise NotImplementedError;
-                блок if __name__ == "__main__": читает sys.argv,
-                зовёт calc(), печатает, ловит CalcError.
+        #  функция calc(text) -> str, return CalcError
+        # можно реализовать sys.argv
         файлы:  calculator.py
         зависит: 1.2
 
 [ ] 1.5 Тесты-заглушки
-        что:    test_numbers.py, test_tokenizer.py, test_parser.py,
-                test_evaluator.py, test_formatter.py, test_calc.py —
-                пустые файлы, чтобы pytest не ругался.
+        # создать пустые тесты test_numbers.py, test_tokenizer.py, test_parser.py,
+        # test_evaluator.py, test_formatter.py, test_calc.py —
+        # пустые файлы, чтобы pytest не ругался.
         файлы:  tests/
         зависит: —
 
