@@ -5,9 +5,8 @@ ADD, MUT, PUSH = 0, 1, 2
 MAX_PHRASE_LENGTH = 3
 
 class Number:
-    def __init__(self, numerator=1, denominator=1):
-        self.numerator = numerator
-        self.denominator = denominator
+    def __init__(self, value):
+        self.value = value
 
 class Operator:
     def __init__(self, operator: str, priority: int, left_association: bool, unary: bool):
@@ -21,7 +20,3 @@ class OpenedParen:
 
 class ClosedParen:
     pass
-
-
-ameba = Number(5, 7)
-print(ameba.numerator, ameba.denominator)

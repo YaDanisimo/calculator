@@ -20,8 +20,8 @@ def calc(text):
     rpn_expression_list = to_reverse_polish_notation(expression_list)
     answer = calculate(rpn_expression_list)
     print("=", answer)
-    answer_words = to_words_format(answer)
-    print(answer_words)
+    #answer_words = to_words_format(answer)
+    #print(answer_words)
     for x in rpn_expression_list:
         if type(x) is Number:
             print(x.value, end=" ")

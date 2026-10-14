@@ -96,13 +96,6 @@ string_to_number_dictionary.update({
     "одна": 1, "две": 2,
 })
 
-# --- максимальная длина фразы (для longest-match) ---
-MAX_PHRASE_LENGTH = max(
-    max(len(k.split()) for k in operators_dictionary),
-    max(len(k.split()) for k in opened_parens_set),
-    max(len(k.split()) for k in closed_parens_set),
-)
-
 operators_dictionary = {
     # ---------- сложение ----------
     "плюс": ("+", 1, True), "сложить": ("+", 1, True), "прибавить": ("+", 1, True),

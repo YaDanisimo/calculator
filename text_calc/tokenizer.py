@@ -79,17 +79,13 @@ def request_processing(request: int, obj, expression: list):
         expression.append(obj)
 
 def tokenize(text) -> list:
-    words = text.split() + ["END"]
+    words = text.split()
 
     prev_word_type = START
     expression = []
 
     idx = 0
     while idx < len(words):
-        if words[idx] in converter.string_to_number_dictionary:
-
-
-
         for length in range(MAX_PHRASE_LENGTH, 0, -1):
             word = " ".join(words[idx:idx + length])
             word_type = converter.get_type(word)
@@ -97,13 +93,13 @@ def tokenize(text) -> list:
                 continue
             finished_object, request = dispatcher(word, word_type, prev_word_type)
             request_processing(request, finished_object, expression)
-            left_idx += length - 1
+            idx += length - 1
             break
 
         if word_type is None:
             raise UnknownWordError(f"Неизвестное слово '{word}'")
 
-        left_idx += 1
+        idx += 1
         prev_word_type = word_type
 
     if prev_word_type in (FUNCTION, OPERATOR, OPENED_PAREN):
