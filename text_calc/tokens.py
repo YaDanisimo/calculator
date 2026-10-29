@@ -5,15 +5,19 @@ OPERATOR = 2
 OPEN_BRACKET = 3
 CLOSE_BRACKET = 4
 
+#команды для tokenizer
+PUSH, MERGE, ERROR = 0, 1, 2
 
+# общее
 PLUS, MINUS, MUL, DIV, POW, SIN, COS, TAN, OPEN, CLOSE = range(0, 10)
+
 class Number:
-    def __init__(self, numerator, denominator=1):
+    def __init__(self, rank, numerator=1, denominator=1):
         self.numerator = numerator
         self.denominator = denominator
+        self.last_rank = rank
 
-
-LEFT, RIGHT = 0, 1
+LEFT, RIGHT = 0, 1 # ассоциативность
 class Operator:
     def __init__(self, priority: int, association: int, is_unary: bool):
         self.priority = priority

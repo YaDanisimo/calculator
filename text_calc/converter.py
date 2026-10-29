@@ -103,7 +103,7 @@ close_brackets = {
 
 
 # NUMERATOR, DENOMINATOR, OPERATOR и т.д. из tokens
-def get_word_info(word): # возвращает кортеж (тип, значение)
+def get_object_info(word): # возвращает кортеж (тип, значение)
     if word in numerators:
         return NUMERATOR, numerators[word]
     if word in denominators:
@@ -114,6 +114,8 @@ def get_word_info(word): # возвращает кортеж (тип, значе
         return OPEN_BRACKET, open_brackets[word]
     if word in close_brackets:
         return CLOSE_BRACKET, close_brackets[word]
+
+    return None, None
 
 
 
