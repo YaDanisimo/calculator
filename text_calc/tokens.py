@@ -1,3 +1,14 @@
+# для конвертера
+NUMERATOR = 0
+DENOMINATOR = 1
+OPERATOR = 2
+OPEN_BRACKET = 3
+CLOSE_BRACKET = 4
+
+
+PLUS, MINUS, MUL, DIV, POV, SIN, COS, TAN = range(0, 8)
+
+# токены
 LEFT, RIGHT = 0, 1
 
 class Number:
@@ -48,11 +59,8 @@ class Tan(Function):
     pass
 
 
-class OpenedParen:
+class OpenBracket:
     pass
 
-class ClosedParen:
+class CloseBracket:
     pass
-
-# [Number, Operator, Number, Operator, OpenedParen, Number, Operator, Number, ClosedParen, Operator, Operator, Number]
-5 + 4 * ( 3 ** 2 - 1) + sin 27 -> 5 4 3 2 ** 1 - * + 27 sin +
