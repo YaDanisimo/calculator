@@ -6,17 +6,14 @@ OPEN_BRACKET = 3
 CLOSE_BRACKET = 4
 
 
-PLUS, MINUS, MUL, DIV, POV, SIN, COS, TAN = range(0, 8)
-
-# токены
-LEFT, RIGHT = 0, 1
-
+PLUS, MINUS, MUL, DIV, POW, SIN, COS, TAN, OPEN, CLOSE = range(0, 10)
 class Number:
     def __init__(self, numerator, denominator=1):
         self.numerator = numerator
         self.denominator = denominator
 
 
+LEFT, RIGHT = 0, 1
 class Operator:
     def __init__(self, priority: int, association: int, is_unary: bool):
         self.priority = priority

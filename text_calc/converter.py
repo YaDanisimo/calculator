@@ -88,31 +88,35 @@ operators = {
 }
 
 open_brackets = {
-    "открывающая скобка": "(",
-    "открывающаяся скобка": "(",
-    "скобка открывается": "(",
-    "открыть скобку": "("
+    "открывающая скобка": OPEN,
+    "открывающаяся скобка": OPEN,
+    "скобка открывается": OPEN,
+    "открыть скобку": OPEN
 }
 
 close_brackets = {
-    "закрывающая скобка": ")",
-    "закрывающаяся скобка": ")",
-    "скобка закрывается": ")",
-    "закрыть скобку": ")"
+    "закрывающая скобка": CLOSE,
+    "закрывающаяся скобка": CLOSE,
+    "скобка закрывается": CLOSE,
+    "закрыть скобку": CLOSE
 }
 
 
-# NUMERATOR, DENOMINATOR, OPERATOR из tokens
-def classify_word(word):
+# NUMERATOR, DENOMINATOR, OPERATOR и т.д. из tokens
+def get_word_info(word): # возвращает кортеж (тип, значение)
     if word in numerators:
-        return NUMERATOR
+        return NUMERATOR, numerators[word]
     if word in denominators:
-        return DENOMINATOR
+        return DENOMINATOR, denominators[word]
     if word in operators:
-        return OPERATOR
+        return OPERATOR, operators[word]
     if word in open_brackets:
-        return OPEN_BRACKET
+        return OPEN_BRACKET, open_brackets[word]
     if word in close_brackets:
-        return CLOSE_BRACKET
+        return CLOSE_BRACKET, close_brackets[word]
+
+
+
+
     
 
