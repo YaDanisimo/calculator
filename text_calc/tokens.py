@@ -5,17 +5,21 @@ OPERATOR = 2
 OPEN_BRACKET = 3
 CLOSE_BRACKET = 4
 
+
 #команды для tokenizer
-PUSH, MERGE, ERROR = 0, 1, 2
+PUSH, MERGE_NUM, MERGE_DEN, ERROR = 0, 1, 2, 3
+
+#списки десятков и единиц
+TENS = range(10, 100, 10)
+ONES = range(0, 10)
 
 # общее
-PLUS, MINUS, MUL, DIV, POW, SIN, COS, TAN, OPEN, CLOSE = range(0, 10)
+ADD, SUB, MUL, DIV, POW, SIN, COS, TAN, OPEN, CLOSE = range(0, 10)
 
 class Number:
-    def __init__(self, rank, numerator=1, denominator=1):
+    def __init__(self, numerator=None, denominator=None):
         self.numerator = numerator
         self.denominator = denominator
-        self.last_rank = rank
 
 LEFT, RIGHT = 0, 1 # ассоциативность
 class Operator:
@@ -29,9 +33,13 @@ class Add(Operator):
         super().__init__(1, LEFT, False)
 
 class Sub(Operator):
-    def __init__(self, is_unary):
-        priority, association = (3, RIGHT) if is_unary else (1, LEFT)
-        super().__init__(priority, association, is_unary)
+    def __init__(self):
+        super().__init__(1, LEFT, False)
+
+class UnarySub(Operator):
+    def __init__(self):
+        super().__init__(3, RIGHT, True)
+
 
 class Mul(Operator):
     def __init__(self):
