@@ -47,7 +47,7 @@ op_to_sym = {
     Tan: "tan"
 }
 
-def print_ans(rpn_expression):
+def ans(rpn_expression):
     ans = []
     for obj in rpn_expression:
         if isinstance(obj, Number):
@@ -61,189 +61,107 @@ def print_ans(rpn_expression):
             ans.append("(")
         elif isinstance(obj, CloseBracket):
             ans.append(")")
-    print(*ans, sep=" ")
+    return " ".join(ans)
 
+def run_test(test_num, tokens, correct_str):
+    result = to_rpn(tokens)
+    result_str = ans(result)
+    print(f"Тест {test_num}:")
+    print(f"Результат: {result_str}")
+    print(f"Ответ:     {correct_str}")
+    print(f"Совпало:   {result_str == correct_str}")
+    print("----------------")
 
 # --- ТЕСТЫ ---
 
 tokens1 = [Number(2), Add(), Number(3)]
-result1 = to_rpn(tokens1)
-print_ans(result1)
-# 2 3 +
-print("----------------")
+run_test(1, tokens1, "2 3 +")
 
 tokens2 = [Number(5), Sub(), Number(2)]
-result2 = to_rpn(tokens2)
-print_ans(result2)
-# 5 2 -
-print("----------------")
+run_test(2, tokens2, "5 2 -")
 
 tokens3 = [Number(4), Mul(), Number(5)]
-result3 = to_rpn(tokens3)
-print_ans(result3)
-# 4 5 *
-print("----------------")
+run_test(3, tokens3, "4 5 *")
 
 tokens4 = [Number(10), Div(), Number(2)]
-result4 = to_rpn(tokens4)
-print_ans(result4)
-# 10 2 :
-print("----------------")
+run_test(4, tokens4, "10 2 :")
 
 tokens5 = [Number(2), Pow(), Number(3)]
-result5 = to_rpn(tokens5)
-print_ans(result5)
-# 2 3 **
-print("----------------")
+run_test(5, tokens5, "2 3 **")
 
 tokens6 = [Sin(), Number(30)]
-result6 = to_rpn(tokens6)
-print_ans(result6)
-# 30 sin
-print("----------------")
+run_test(6, tokens6, "30 sin")
 
 tokens7 = [Cos(), Number(60)]
-result7 = to_rpn(tokens7)
-print_ans(result7)
-# 60 cos
-print("----------------")
+run_test(7, tokens7, "60 cos")
 
 tokens8 = [Tan(), Number(45)]
-result8 = to_rpn(tokens8)
-print_ans(result8)
-# 45 tan
-print("----------------")
+run_test(8, tokens8, "45 tan")
 
 tokens9 = [UnarySub(), Number(5)]
-result9 = to_rpn(tokens9)
-print_ans(result9)
-# 5 u-
-print("----------------")
+run_test(9, tokens9, "5 u-")
 
 tokens10 = [Number(1, 2), Add(), Number(1, 3)]
-result10 = to_rpn(tokens10)
-print_ans(result10)
-# 1/2 1/3 +
-print("----------------")
+run_test(10, tokens10, "1/2 1/3 +")
 
 tokens11 = [Number(1), Add(), Number(2), Mul(), Number(3)]
-result11 = to_rpn(tokens11)
-print_ans(result11)
-# 1 2 3 * +
-print("----------------")
+run_test(11, tokens11, "1 2 3 * +")
 
 tokens12 = [OpenBracket(), Number(1), Add(), Number(2), CloseBracket(), Mul(), Number(3)]
-result12 = to_rpn(tokens12)
-print_ans(result12)
-# 1 2 + 3 *
-print("----------------")
+run_test(12, tokens12, "1 2 + 3 *")
 
 tokens13 = [Number(2), Pow(), Number(3), Pow(), Number(2)]
-result13 = to_rpn(tokens13)
-print_ans(result13)
-# 2 3 2 ** **
-print("----------------")
+run_test(13, tokens13, "2 3 2 ** **")
 
 tokens14 = [Number(10), Sub(), Number(5), Sub(), Number(2)]
-result14 = to_rpn(tokens14)
-print_ans(result14)
-# 10 5 - 2 -
-print("----------------")
+run_test(14, tokens14, "10 5 - 2 -")
 
 tokens15 = [Sin(), OpenBracket(), Number(30), CloseBracket(), Add(), Number(5)]
-result15 = to_rpn(tokens15)
-print_ans(result15)
-# 30 sin 5 +
-print("----------------")
+run_test(15, tokens15, "30 sin 5 +")
 
 tokens16 = [Number(2), Mul(), OpenBracket(), Number(3), Add(), Number(4), CloseBracket()]
-result16 = to_rpn(tokens16)
-print_ans(result16)
-# 2 3 4 + *
-print("----------------")
+run_test(16, tokens16, "2 3 4 + *")
 
 tokens17 = [UnarySub(), OpenBracket(), Number(3), Add(), Number(2), CloseBracket(), Mul(), Number(4)]
-result17 = to_rpn(tokens17)
-print_ans(result17)
-# 3 2 + u- 4 *
-print("----------------")
+run_test(17, tokens17, "3 2 + u- 4 *")
 
 tokens18 = [Number(1, 2), Mul(), Number(2, 3)]
-result18 = to_rpn(tokens18)
-print_ans(result18)
-# 1/2 2/3 *
-print("----------------")
+run_test(18, tokens18, "1/2 2/3 *")
 
 tokens19 = [Cos(), OpenBracket(), Number(60), Mul(), Number(2), CloseBracket()]
-result19 = to_rpn(tokens19)
-print_ans(result19)
-# 60 2 * cos
-print("----------------")
+run_test(19, tokens19, "60 2 * cos")
 
 tokens20 = [Number(2), Pow(), OpenBracket(), Number(3), Add(), Number(1), CloseBracket()]
-result20 = to_rpn(tokens20)
-print_ans(result20)
-# 2 3 1 + **
-print("----------------")
+run_test(20, tokens20, "2 3 1 + **")
 
 tokens21 = [OpenBracket(), UnarySub(), Number(5), CloseBracket(), Pow(), Number(2)]
-result21 = to_rpn(tokens21)
-print_ans(result21)
-# 5 u- 2 **
-print("----------------")
+run_test(21, tokens21, "5 u- 2 **")
 
 tokens22 = [Number(10), Div(), OpenBracket(), Number(2), Add(), Number(3), CloseBracket()]
-result22 = to_rpn(tokens22)
-print_ans(result22)
-# 10 2 3 + :
-print("----------------")
+run_test(22, tokens22, "10 2 3 + :")
 
 tokens23 = [Sin(), OpenBracket(), Cos(), OpenBracket(), Number(0), CloseBracket(), CloseBracket()]
-result23 = to_rpn(tokens23)
-print_ans(result23)
-# 0 cos sin
-print("----------------")
+run_test(23, tokens23, "0 cos sin")
 
 tokens24 = [Number(5), Pow(), Number(2), Sub(), Number(3), Mul(), Number(2)]
-result24 = to_rpn(tokens24)
-print_ans(result24)
-# 5 2 ** 3 2 * -
-print("----------------")
+run_test(24, tokens24, "5 2 ** 3 2 * -")
 
 tokens25 = [OpenBracket(), Number(1), Add(), Number(2), CloseBracket(), Div(), OpenBracket(), Number(3), Sub(), Number(1), CloseBracket()]
-result25 = to_rpn(tokens25)
-print_ans(result25)
-# 1 2 + 3 1 - :
-print("----------------")
+run_test(25, tokens25, "1 2 + 3 1 - :")
 
 # --- СЛОЖНЫЕ ТЕСТЫ (от 10 токенов) ---
 
 tokens26 = [Number(2), Add(), Number(3), Mul(), OpenBracket(), Number(4), Sub(), Number(5), CloseBracket(), Pow(), Number(2), Div(), Number(6)]
-result26 = to_rpn(tokens26)
-print_ans(result26)
-# 2 3 4 5 - 2 ** * 6 : +
-print("----------------")
+run_test(26, tokens26, "2 3 4 5 - 2 ** * 6 : +")
 
 tokens27 = [UnarySub(), Sin(), OpenBracket(), Number(30), CloseBracket(), Add(), Cos(), OpenBracket(), Number(60), CloseBracket(), Mul(), Tan(), OpenBracket(), Number(45), CloseBracket()]
-result27 = to_rpn(tokens27)
-print_ans(result27)
-# 30 sin u- 60 cos 45 tan * +
-print("----------------")
+run_test(27, tokens27, "30 sin u- 60 cos 45 tan * +")
 
 tokens28 = [UnarySub(), OpenBracket(), Number(2), Add(), Number(3), CloseBracket(), Pow(), Number(2), Sub(), Number(4), Mul(), OpenBracket(), Number(5), Add(), Number(6), CloseBracket()]
-result28 = to_rpn(tokens28)
-print_ans(result28)
-# 2 3 + u- 2 ** 4 5 6 + * -
-print("----------------")
+run_test(28, tokens28, "2 3 + u- 2 ** 4 5 6 + * -")
 
 tokens29 = [Number(1, 2), Mul(), OpenBracket(), Number(3, 4), Add(), Number(5, 6), CloseBracket(), Sub(), Number(7, 8)]
-result29 = to_rpn(tokens29)
-print_ans(result29)
-# 1/2 3/4 5/6 + * 7/8 -
-print("----------------")
+run_test(29, tokens29, "1/2 3/4 5/6 + * 7/8 -")
 
 tokens30 = [Sin(), OpenBracket(), Number(30), Add(), Number(60), CloseBracket(), Mul(), Cos(), OpenBracket(), Number(45), CloseBracket(), Sub(), Tan(), OpenBracket(), Number(90), Div(), Number(2), CloseBracket()]
-result30 = to_rpn(tokens30)
-print_ans(result30)
-# 30 60 + sin 45 cos * 90 2 : tan -
-print("----------------")
+run_test(30, tokens30, "30 60 + sin 45 cos * 90 2 : tan -")
