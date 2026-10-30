@@ -6,16 +6,17 @@ OPEN_BRACKET = 3
 CLOSE_BRACKET = 4
 
 
-#команды для tokenizer
+# команды для tokenizer
 PUSH, MERGE_NUM, MERGE_DEN, ERROR = 0, 1, 2, 3
+
+# значения для converter и tokenizer
+ADD, SUB, MUL, DIV, POW, SIN, COS, TAN, OPEN, CLOSE = range(0, 10)
 
 #списки десятков и единиц
 TENS = range(10, 100, 10)
 ONES = range(0, 10)
 
-# общее
-ADD, SUB, MUL, DIV, POW, SIN, COS, TAN, OPEN, CLOSE = range(0, 10)
-
+# токены
 class Number:
     def __init__(self, numerator=None, denominator=None):
         self.numerator = numerator

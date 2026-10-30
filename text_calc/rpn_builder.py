@@ -22,17 +22,26 @@ OpenBracket, CloseBracket ничего не хранят. Просто обоз�
 if isinstance(token, Number):
     print("это число")
     
-так же можно писать такую проверку:
+Так же можно писать такую проверку:
 if isinstance(token, (Operator, OpenBracket)):
     print("Это оператор или открывающаяся скобка")
-    
+
+Так же существует наследование: 
+token = Add()
+isinstance(token, Add) -> True
+isinstance(token, Operator) -> True -- т.к. Add наследуется от Operator
+isinstance(token, Pow) -> False
+Так же функции и другие операторы наследуются от Operator 
+ 
 Я в тебя верю.
 '''
 
 
-
+# Это то, что надо сделать.
+# Если задача большая, то раздели её на несколько функций
 def to_rpn(tokens) -> list:
     return []
+
 
 # Для тестов. Переводит токены в символы
 op_to_sym = {
