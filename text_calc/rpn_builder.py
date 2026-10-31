@@ -1,3 +1,5 @@
+from idlelib.configdialog import is_int
+
 from tokens import *
 
 '''
@@ -40,7 +42,41 @@ isinstance(token, Pow) -> False
 # Это то, что надо сделать.
 # Если задача большая, то раздели её на несколько функций
 def to_rpn(tokens) -> list:
-    return []
+    stack = []
+    exit = []
+
+    for token in tokens:
+        if isinstance(token, Number):
+            exit.append(token)
+        # elif isinstance(token, Function):
+        #     stack.append(token)
+        elif isinstance(token, OpenBracket):
+            stack.append(token)
+        elif isinstance(token, CloseBracket):
+            while stack and not(isinstance(stack[-1],OpenBracket)):
+                exit.append(stack.pop())
+                if stack:
+                    stack.pop()
+        elif isinstance(token, Operator):
+            while stack:
+                last = stack[-1]
+                if isinstance(last, OpenBracket):
+                    break
+                if isinstance(last, Operator):
+                    if (last.priority > token.priority) or \
+                            (last.priority == token.priority and last.association == LEFT):
+                        exit.append(stack.pop())
+                    else:
+                        break
+                else:
+                    break
+            stack.append(token)
+
+
+    while stack:
+        exit.append(stack.pop())
+
+    return exit
 
 
 # Для тестов. Переводит токены в символы
@@ -56,9 +92,9 @@ op_to_sym = {
     Tan: "tan"
 }
 
-def ans(rpn_expression):
+def ans(tokens):
     ans = []
-    for obj in rpn_expression:
+    for obj in tokens:
         if isinstance(obj, Number):
             if obj.denominator is None or obj.denominator == 1:
                 ans.append(str(obj.numerator))
@@ -82,7 +118,7 @@ def run_test(test_num, tokens, correct_str):
     print("----------------")
 
 # --- ТЕСТЫ ---
-
+#
 tokens1 = [Number(2), Add(), Number(3)]
 run_test(1, tokens1, "2 3 +")
 
