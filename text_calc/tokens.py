@@ -1,41 +1,51 @@
-# для конвертера
+from errors import *
+
 NUMERATOR = 0
 DENOMINATOR = 1
 OPERATOR = 2
 OPEN_BRACKET = 3
 CLOSE_BRACKET = 4
+CONSTANT = 5
+DECIMAL_SEP = 6
+
+PUSH, MERGE_NUM, MERGE_DEN, ERROR, REPLACE = 0, 1, 2, 3, 4
+
+ADD, SUB, MUL, DIV, MOD, POW, SIN, COS, TAN, SIN_LOW, COS_LOW, TAN_LOW, OPEN, CLOSE = range(0, 14)
+
+TENS = range(20, 100, 10)
+ONES = range(1, 10)
+
+LEFT, RIGHT = 0, 1
 
 
-# команды для tokenizer
-PUSH, MERGE_NUM, MERGE_DEN, ERROR = 0, 1, 2, 3
-
-# значения для converter и tokenizer
-ADD, SUB, MUL, DIV, POW, SIN, COS, TAN, OPEN, CLOSE = range(0, 10)
-
-#списки десятков и единиц
-TENS = range(10, 100, 10)
-ONES = range(0, 10)
-
-# токены
 class Number:
     def __init__(self, numerator=None, denominator=None):
         self.numerator = numerator
         self.denominator = denominator
 
-LEFT, RIGHT = 0, 1 # ассоциативность
+    def __repr__(self):
+        return f"Number({self.numerator!r}, {self.denominator!r})"
+
+
 class Operator:
-    def __init__(self, priority: int, association: int, is_unary: bool):
+    def __init__(self, priority, association, is_unary):
         self.priority = priority
         self.association = association
         self.is_unary = is_unary
+
+    def __repr__(self):
+        return f"{self.__class__.__name__}({self.priority}, {self.association}, {self.is_unary})"
+
 
 class Add(Operator):
     def __init__(self):
         super().__init__(1, LEFT, False)
 
+
 class Sub(Operator):
     def __init__(self):
         super().__init__(1, LEFT, False)
+
 
 class UnarySub(Operator):
     def __init__(self):
@@ -46,9 +56,16 @@ class Mul(Operator):
     def __init__(self):
         super().__init__(2, LEFT, False)
 
+
 class Div(Operator):
     def __init__(self):
         super().__init__(2, LEFT, False)
+
+
+class Mod(Operator):
+    def __init__(self):
+        super().__init__(2, LEFT, False)
+
 
 class Pow(Operator):
     def __init__(self):
@@ -56,21 +73,50 @@ class Pow(Operator):
 
 
 class Function(Operator):
-    def __init__(self):
-        super().__init__(3, RIGHT, True)
+    def __init__(self, priority):
+        super().__init__(priority, RIGHT, True)
+
 
 class Sin(Function):
-    pass
+    def __init__(self):
+        super().__init__(5)
+
 
 class Cos(Function):
-    pass
+    def __init__(self):
+        super().__init__(5)
+
 
 class Tan(Function):
-    pass
+    def __init__(self):
+        super().__init__(5)
+
+
+class SinCapture(Function):
+    def __init__(self):
+        super().__init__(1)
+
+
+class CosCapture(Function):
+    def __init__(self):
+        super().__init__(1)
+
+
+class TanCapture(Function):
+    def __init__(self):
+        super().__init__(1)
 
 
 class OpenBracket:
-    pass
+    def __repr__(self):
+        return "OpenBracket()"
+
 
 class CloseBracket:
-    pass
+    def __repr__(self):
+        return "CloseBracket()"
+
+
+class DecimalSep:
+    def __repr__(self):
+        return "DecimalSep()"
