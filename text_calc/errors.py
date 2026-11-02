@@ -1,47 +1,89 @@
-class CalcError(Exception):
-    pass
+class CalculatorError(Exception):
+    default_message = "ошибка калькулятора"
 
-class TokenizerError(CalcError):
-    pass
+    def __init__(self, message=None):
+        self.message = message if message is not None else self.default_message
+        super().__init__(self.message)
 
-class ParserError(CalcError):
-    pass
+    def __str__(self):
+        return self.message
 
-class EvaluatorError(CalcError):
-    pass
 
-class UnknownWordError(TokenizerError):
-    def __init__(self, word):
+class TokenizeError(CalculatorError):
+    default_message = "ошибка разбора выражения"
+
+    def __init__(self, message=None, position=None):
+        super().__init__(message)
+        self.position = position
+
+
+class EmptyExpressionError(TokenizeError):
+    default_message = "пустое выражение"
+
+
+class UnknownWordError(TokenizeError):
+    def __init__(self, word, position=None):
+        super().__init__(f"неизвестное слово: '{word}'", position)
         self.word = word
-        super().__init__(f"Неизвестное слово: {word}")
 
-class InvalidSequenceError(TokenizerError):
-    def __init__(self, message):
-        self.message = message
-        super().__init__(f"Неправильная последовательность: {message}")
 
-class InvalidNumberError(TokenizerError):
-    def __init__(self, number):
-        self.number = number
-        super().__init__(f"Некорректная запись числа: {number}")
+class InvalidNumberError(TokenizeError):
+    default_message = "неверная запись числа"
 
-class MismatchedParenError(ParserError):
-    def __init__(self, mismatch_open_paren: bool):
-        self.paren_type = mismatch_open_paren
-        error = "Незакрытая скобка" if mismatch_open_paren \
-            else "Лишняя закрывающая скобка"
-        super().__init__(error)
+    def __init__(self, phrase=None, position=None):
+        self.phrase = phrase
+        if phrase is not None:
+            super().__init__(f"неверная запись числа: '{phrase}'", position)
+        else:
+            super().__init__(None, position)
 
-class DivisionByZeroError(EvaluatorError):
-    def __init__(self):
-        super().__init__("Деление на ноль")
 
-class UnknownUnaryError(EvaluatorError):
-    def __init__(self, message):
-        self.message = message
-        super().__init__(message)
+class InvalidSequenceError(TokenizeError):
+    default_message = "неверная последовательность чисел и операций"
 
-class UnknownOperatorError(TokenizerError):
-    def __init__(self, message):
-        self.message = message
-        super().__init__(message)
+    def __init__(self, phrase=None, position=None):
+        self.phrase = phrase
+        if phrase is not None:
+            super().__init__(f"неверная последовательность: '{phrase}'", position)
+        else:
+            super().__init__(None, position)
+
+
+class DecimalSeparatorError(TokenizeError):
+    default_message = "ошибка в записи десятичной дроби"
+
+
+class BracketBalanceError(TokenizeError):
+    default_message = "неверный баланс скобок"
+
+
+class BracketNestingError(TokenizeError):
+    default_message = "неверная вложенность скобок"
+
+
+class EvalError(CalculatorError):
+    default_message = "ошибка вычисления"
+
+
+class DivisionByZeroError(EvalError):
+    default_message = "деление на ноль"
+
+
+class ModuloByZeroError(EvalError):
+    default_message = "остаток от деления на ноль"
+
+
+class NegativeBaseFractionalExponentError(EvalError):
+    default_message = "отрицательное основание в дробной степени"
+
+
+class ZeroToNegativePowerError(EvalError):
+    default_message = "ноль в отрицательной степени"
+
+
+class TrigonometricUndefinedError(EvalError):
+    default_message = "тригонометрическая функция не определена в этой точке"
+
+
+class StackError(EvalError):
+    default_message = "внутренняя ошибка вычисления: некорректное состояние стека"
