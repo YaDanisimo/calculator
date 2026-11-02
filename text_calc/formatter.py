@@ -128,4 +128,3 @@ def to_format(num):
     return sign + " ".join(value)
 
 
-format_number = to_format
