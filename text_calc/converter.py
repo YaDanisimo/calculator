@@ -1,5 +1,6 @@
 from tokens import *
 from fractions import Fraction
+from tokenizer import *
 
 # для tokenizer
 numerators = {
